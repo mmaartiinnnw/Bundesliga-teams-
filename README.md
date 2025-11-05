@@ -45,21 +45,25 @@ del ciclo formativo de **1º de DAW (Desarrollo de Aplicaciones Web)**.
 ---
 
 ## 🧩 Estructura del proyecto
+## 🧩 Estructura del proyecto
+
+```plaintext
 📁 bundesliga/
-├── 📂 db/ # Conexión con la base de datos (MongoDB)
-├── 📂 routes/ # Rutas y controladores de la API REST
-│ ├── entrenadores.js
-│ ├── equipos.js
-│ ├── estadios.js
-│ └── equipaciones.js
-├── 📂 public/ # Archivos estáticos (HTML, CSS, JSRender, imágenes)
-│ ├── index.html
-│ ├── js/
-│ │ ├── main.js
-│ │ └── templates.js
-│ └── css/
-│ └── style.css
-├── 📂 views/ # Plantillas JSRender (si están separadas)
-├── 📜 server.js # Servidor principal con configuración de Express
-├── 📜 package.json # Dependencias y scripts
-└── 📜 README.md # Documentación del proyecto
+├── 📂 db/                 # Conexión con la base de datos (MongoDB)
+├── 📂 routes/             # Rutas y controladores de la API REST
+│   ├── entrenadores.js
+│   ├── equipos.js
+│   ├── estadios.js
+│   └── equipaciones.js
+├── 📂 public/             # Archivos estáticos (HTML, CSS, JSRender, imágenes)
+│   ├── index.html
+│   ├── js/
+│   │   ├── main.js
+│   │   └── templates.js
+│   └── css/
+│       └── style.css
+├── 📂 views/              # Plantillas JSRender (si están separadas)
+├── 📜 server.js           # Servidor principal con configuración de Express
+├── 📜 package.json        # Dependencias y scripts
+└── 📜 README.md           # Documentación del proyecto
+
