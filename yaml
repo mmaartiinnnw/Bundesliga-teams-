@@ -1,0 +1,88 @@
+
+---
+
+## ⚽ Entidades y estructura de datos
+
+### 1. **Equipos**
+| Campo | Tipo | Descripción |
+|--------|------|-------------|
+| nombre | String | Nombre del equipo |
+| ciudad | String | Ciudad de origen |
+| estadio | String | Estadio donde juega |
+| entrenador | String | Entrenador principal |
+| fundacion | Number | Año de fundación |
+
+### 2. **Entrenadores**
+| Campo | Tipo | Descripción |
+|--------|------|-------------|
+| nombre | String | Nombre del entrenador |
+| nacionalidad | String | País de origen |
+| edad | Number | Edad actual |
+| equipo | String | Equipo actual |
+
+### 3. **Estadios**
+| Campo | Tipo | Descripción |
+|--------|------|-------------|
+| nombre | String | Nombre del estadio |
+| ciudad | String | Ciudad donde se ubica |
+| capacidad | Number | Número de espectadores |
+| inauguracion | Number | Año de inauguración |
+
+### 4. **Equipaciones**
+| Campo | Tipo | Descripción |
+|--------|------|-------------|
+| equipo | String | Equipo al que pertenece |
+| tipo | String | Local / Visitante |
+| colores | String | Colores principales |
+| fabricante | String | Marca de la equipación |
+
+---
+
+## 🧱 API REST – Endpoints principales
+
+| Método | Endpoint | Descripción |
+|--------|-----------|-------------|
+| GET | `/equipos` | Listar todos los equipos |
+| POST | `/equipos` | Crear un nuevo equipo |
+| PUT | `/equipos/:id` | Actualizar los datos de un equipo |
+| DELETE | `/equipos/:id` | Eliminar un equipo |
+| GET | `/entrenadores` | Listar todos los entrenadores |
+| POST | `/entrenadores` | Crear un entrenador |
+| PUT | `/entrenadores/:id` | Actualizar un entrenador |
+| DELETE | `/entrenadores/:id` | Eliminar un entrenador |
+| GET | `/estadios` | Listar todos los estadios |
+| POST | `/estadios` | Crear un estadio |
+| PUT | `/estadios/:id` | Actualizar un estadio |
+| DELETE | `/estadios/:id` | Eliminar un estadio |
+| GET | `/equipaciones` | Listar todas las equipaciones |
+| POST | `/equipaciones` | Crear una equipación |
+| PUT | `/equipaciones/:id` | Actualizar una equipación |
+| DELETE | `/equipaciones/:id` | Eliminar una equipación |
+
+---
+
+## 🧭 Interfaz Web (Frontend)
+
+La interfaz web permite al usuario **visualizar, añadir, modificar y eliminar registros** de las diferentes entidades.  
+Está diseñada con un estilo **limpio, responsive y minimalista**, utilizando **Picnic CSS** y **JSRender** para mostrar los datos de la API.
+
+### 🖼️ Características
+- Listado de todas las entidades.  
+- Formularios para crear y modificar datos.  
+- Botones para eliminar registros.  
+- Renderizado dinámico mediante plantillas JSRender.  
+- Navegación simple y clara.  
+
+### 📸 Ejemplo de funcionamiento
+- Al cargar la página principal (`index.html`), se muestran los equipos.  
+- El usuario puede crear o editar un registro mediante formularios interactivos.  
+- Los cambios se actualizan en tiempo real mediante peticiones AJAX al servidor.
+
+---
+
+## 🚀 Instalación y ejecución
+
+### 1️⃣ Clonar el repositorio
+```bash
+git clone https://github.com/tuusuario/bundesliga.git
+cd bundesliga
