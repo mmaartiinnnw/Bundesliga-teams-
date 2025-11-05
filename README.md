@@ -103,8 +103,8 @@ Content-Type: application/json
 
 🧑‍💻 Autor
 
-Tu Nombre Completo
-📚 Proyecto interdisciplinario – 1º DAW
+Diego Martím García
+📚 Proyecto intermodular – 1º CFGS DAW
 📅 Curso académico: 2024–2025
 
-Repositorio: https://github.com/tuusuario/bundesliga
+Repositorio: 
