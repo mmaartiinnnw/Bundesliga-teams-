@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Estadis</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.11/jsrender.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/navigo@8.11.1/lib/navigo.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="estadis.css">
+</head>
+<body>
+<h1>Estadis</h1>
+<p><a href="/index.html">Torna a l'inici</a></p>
+
+<div id="estadis-container">
+    <script id="estadis-template" type="text/x-jsrender">
+        <p><a href="#/add" class="btn btn-primary">Afegir estadi</a></p>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>ID</th><th>Nom</th><th>Ciutat</th><th>Capacitat</th><th>Imatge</th><th>Accions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{for estadis}}
+            <tr>
+              <td>{{:id}}</td>
+              <td>{{:nom}}</td>
+              <td>{{:ciutat}}</td>
+              <td>{{:capacitat}}</td>
+              <td>
+                <img src="{{:imatge}}" alt="Imatge estadi {{:nom}}" style="max-height:80px; max-width:120px;">
+              </td>
+              <td>
+                <a href="#/modify/{{:id}}" class="btn btn-warning">Modificar</a>
+                <a href="#/delete/{{:id}}" class="btn btn-danger">Eliminar</a>
+              </td>
+            </tr>
+            {{/for}}
+          </tbody>
+        </table>
+    </script>
+
+</div>
+
+<div id="estadi-form"></div>
+
+<script id="add_estadi_template" type="text/x-handlebars-template">
+    <h2>Afegir nou estadi</h2>
+    <form id="add_estadi_form">
+        <label>ID</label><input name="id" type="number" class="form-control" required>
+        <label>Nom</label><input name="nom" class="form-control" required>
+        <label>Ciutat</label><input name="ciutat" class="form-control" required>
+        <label>Capacitat</label><input name="capacitat" type="number" class="form-control" required>
+        <button type="submit" class="btn btn-primary mt-2">Crear</button>
+    </form>
+</script>
+
+
+<script id="Modify-estadis-template" type="text/x-handlebars-template">
+    <h2>Modificar estadi</h2>
+    <form id="Modify-estadi-form">
+      <label>ID</label><br><input type="number" name="id" value="{{:estadi.id}}"><br>
+      <label>Nom</label><input name="nom" value="{{:estadi.nom}}" class="form-control" required>
+      <label>Ciutat</label><input name="ciutat" value="{{:estadi.ciutat}}" class="form-control" required>
+      <label>Capacitat</label><input name="capacitat" type="number" value="{{:estadi.capacitat}}" class="form-control" required>
+      <button type="submit" class="btn btn-success mt-2">Guardar</button>
+    </form>
+</script>
+
+<script>
+    const router = new Navigo('/', { hash: true });
+    router
+        .on('/', showEstadis)
+        .on('/estadis.html', showEstadis)
+        .on('/add', showAddForm)
+        .on('/modify/:id', showModifyForm)
+        .on('/delete/:id', deleteEstadi)
+        .resolve();
+
+    function showEstadis() {
+        $.getJSON('/api/estadis', data => {
+            const html = $('#estadis-template').render({ estadis: data.estadis });
+            $('#estadis-container').html(html);
+        });
+    }
+
+    function showAddForm() {
+        const html = $('#add_estadi_template').render();
+        $('#estadi-form').html(html);
+        $('#add_estadi_form').on('submit', e => {
+            e.preventDefault();
+            $.post('/api/estadis', $(e.target).serializeObject()).done(() => router.navigate('/'));
+        });
+    }
+
+    function showModifyForm({data}) {
+        const id = data.id;
+        $.getJSON(`/api/estadis/${id}`, d => {
+            const html = $('#Modify-estadis-template').render({ estadi: d.estadi });
+            $('#estadi-form').html(html);
+            $('#Modify-estadi-form').on('submit', e => {
+                e.preventDefault();
+                $.ajax({url: `/api/estadis/${id}`, type: 'PUT', data: $(e.target).serializeObject()})
+                    .done(() => showEstadis());
+            });
+        });
+    }
+
+    function deleteEstadi({data}) {
+        $.ajax({url: `/api/estadis/${data.id}`, type: 'DELETE'})
+            .done(() => router.navigate('/'));
+    }
+
+    $(document).ready(() => router.navigate('/'));
+</script>
+</body>
+</html>

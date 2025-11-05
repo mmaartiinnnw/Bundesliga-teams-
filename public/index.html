@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Bundesliga</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/picnic">
+    <link rel="stylesheet" href="bundesliga.css">
+</head>
+<body>
+
+<h1>Bundesliga</h1>
+
+<img src="images/descarga.png" alt="Logo Bundesliga" style="width:400px;height:400px;"/>
+
+<ul>
+    <li><a href="/equips.html">Equips</a></li>
+    <li><a href="/entrenadors.html">Entrenadors</a></li>
+    <li><a href="/estadis.html">Estadis</a></li>
+    <li><a href="/equipacions.html">Equipacions</a></li>
+</ul>
+
+<div id="app"></div>
+
+<!-- JSRender i jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.15/jsrender.min.js"></script>
+
+<!--
+<script id="template" type="text/x-jsrender">
+    <h3>Llista d'equips</h3>
+    <ul>
+        {{for equips}}
+        <li>{{:name}} ({{:city}})</li>
+        {{/for}}
+    </ul>
+</script>
+
+<script>
+    $(function () {
+        $.getJSON('/api/equips', function(data) {
+            const html = $("#template").render({ equips: data.equips });
+            $("#app").html(html);
+        });
+    });
+</script>
+
+-->
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Equips</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/navigo@8.11.1/lib/navigo.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<h1>Equips</h1>
+<p><a href="/index.html">Torna a l'inici</a></p>
+
+<div id="equips-container">
+    <script id="equips-template" type="text/x-handlebars-template">
+        <p><a href="#/add" class="btn btn-primary">Afegir equip</a></p>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Ciutat</th>
+                <th>Barri</th>
+                <th>Imatge</th>
+                <th>Accions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#each equips}}
+                <tr>
+                    <td>{{id}}</td>
+                    <td>{{nom}}</td>
+                    <td>{{ciutat}}</td>
+                    <td>{{barri}}</td>
+                    <td><img src="{{imatge}}" alt="Imatge equip" style="max-height: 60px;"></td>
+                    <td>
+                        <a href="#/modify/{{id}}" class="btn btn-warning">Modificar</a>
+                        <a href="#/delete/{{id}}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
+    </script>
+
+</div>
+
+<div id="equip-form"></div>
+
+<script id="add_equip_template" type="text/x-handlebars-template">
+    <h2>Afegir nou equip</h2>
+    <form id="add_equip_form">
+        <label>ID</label>
+        <input name="id" type="number" class="form-control">
+        <label>Nom</label>
+        <input name="nom" class="form-control">
+        <label>Ciutat</label>
+        <input name="ciutat" class="form-control">
+
+        <label>Imatge (URL)</label>
+        <input name="imatge" class="form-control">
+        <button type="submit" class="btn btn-primary mt-2">Crear</button>
+    </form>
+</script>
+
+
+<script id="Modify-equips-template" type="text/x-handlebars-template">
+    <h2>Modificar equip</h2>
+    <form id="Modify-equip-form">
+        <input type="hidden" name="id" value="{{equip.id}}">
+        <label>Nom</label>
+        <input name="nom" value="{{equip.nom}}" class="form-control" >
+        <label>Ciutat</label>
+        <input name="ciutat" value="{{equip.ciutat}}" class="form-control" >
+        <label>Imatge (URL)</label>
+        <input name="imatge" value="{{equip.imatge}}" class="form-control">
+        <button type="submit" class="btn btn-success mt-2">Guardar</button>
+    </form>
+</script>
+
+<script>
+    const router = new Navigo('/', { hash: true });
+
+    router
+        .on('/', showEquips)
+        .on('/equips.html', showEquips)
+        .on('/add', showAddForm)
+        .on('/modify/:id', showModifyForm)
+        .on('/delete/:id', deleteEquip)
+        .resolve();
+
+    function showEquips() {
+        $.getJSON('/api/equips', data => {
+            const template = Handlebars.compile($('#equips-template').html());
+            $('#equips-container').html(template({ equips: data.equips }));
+            $('#equip-form').html(''); // Limpia el form por si había uno abierto
+        });
+    }
+
+    function showAddForm() {
+        const template = Handlebars.compile($('#add_equip_template').html());
+        $('#equip-form').html(template());
+        $('#add_equip_form').on('submit', e => {
+            e.preventDefault();
+            $.post('/api/equips', $(e.target).serializeObject())
+                .done(() => router.navigate('/'))
+                .fail(err => console.error(err));
+        });
+    }
+
+    function showModifyForm({ data }) {
+        const id = data.id;
+        $.getJSON(`/api/equips/${id}`, d => {
+            // Prevenimos errores por valores undefined
+            d.equip.entrenador_id = d.equip.entrenador_id || '';
+            d.equip.estadi_id = d.equip.estadi_id || '';
+            d.equip.classificacio = d.equip.classificacio || '';
+
+            const template = Handlebars.compile($('#Modify-equips-template').html());
+            $('#equip-form').html(template({ equip: d.equip }));
+
+            $('#Modify-equip-form').on('submit',
+                e => {
+                    e.preventDefault();
+                    $.ajax({
+                        url: `/api/equips/${id}`,
+                        type: 'PUT',
+                        data: $(e.target).serializeObject()
+                    })
+                        .done(() => router.navigate('/'))
+                        .fail(err => console.error(err));
+                });
+        }).fail(err => console.error( err));
+    }
+
+    function deleteEquip({ data }) {
+        $.ajax({
+            url: `/api/equips/${data.id}`,
+            type: 'DELETE'
+        })
+            .done(() => router.navigate('/'))
+            .fail(err => console.error( err));
+    }
+
+    $(document).ready(() => router.navigate('/'));
+</script>
+
+</body>
+</html>
