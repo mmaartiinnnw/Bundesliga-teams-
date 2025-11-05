@@ -45,7 +45,6 @@ del ciclo formativo de **1º de DAW (Desarrollo de Aplicaciones Web)**.
 ---
 
 ## 🧩 Estructura del proyecto
-## 🧩 Estructura del proyecto
 
 ```plaintext
 📁 bundesliga/
