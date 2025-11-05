@@ -66,3 +66,45 @@ del ciclo formativo de **1º de DAW (Desarrollo de Aplicaciones Web)**.
 ├── 📜 package.json        # Dependencias y scripts
 └── 📜 README.md           # Documentación del proyecto
 
+2️⃣ Instalar dependencias
+npm install
+
+3️⃣ Configurar la base de datos
+
+Asegúrate de tener MongoDB en ejecución (local o en Docker).
+Por defecto, la conexión se realiza a:
+
+const db = monk('localhost/bundesliga');
+
+4️⃣ Iniciar el servidor
+npm start
+
+
+El proyecto se ejecutará en http://localhost:3000.
+
+🧪 Pruebas con Postman / Thunder Client
+
+Ejemplo de prueba para obtener todos los equipos:
+
+GET http://localhost:3000/equipos
+
+
+Ejemplo para crear un nuevo entrenador:
+
+POST http://localhost:3000/entrenadores
+Content-Type: application/json
+
+{
+  "nombre": "Thomas Tuchel",
+  "nacionalidad": "Alemán",
+  "edad": 50,
+  "equipo": "Bayern Múnich"
+}
+
+🧑‍💻 Autor
+
+Tu Nombre Completo
+📚 Proyecto interdisciplinario – 1º DAW
+📅 Curso académico: 2024–2025
+
+Repositorio: https://github.com/tuusuario/bundesliga
